@@ -199,5 +199,30 @@ router.post("/bulk-mark", async (req, res) => {
     res.status(500).json({ error: "Failed to bulk mark attendance" });
   }
 });
+// DELETE ALL attendance records
+// DELETE /api/attendance/clear
+router.delete("/clear", async (req, res) => {
+  const conn = await pool.getConnection();
+  try {
+    await conn.beginTransaction();
+
+    // Delete attendance records first (FK -> sessions)
+    await conn.query("DELETE FROM attendance_records");
+
+    // Then delete sessions
+    await conn.query("DELETE FROM attendance_sessions");
+
+    // commit
+    await conn.commit();
+    res.json({ message: "Attendance cleared successfully!" });
+  } catch (err) {
+    try { await conn.rollback(); } catch (e) { console.error("Rollback failed:", e); }
+    console.error("Failed to clear attendance:", err);
+    res.status(500).json({ error: "Failed to clear attendance" });
+  } finally {
+    conn.release();
+  }
+});
+
 
 module.exports = router;
