@@ -1,0 +1,354 @@
+@reference "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ======= GLOBAL APP SHELL ======= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  color: #e5e7eb;
+  background: #020617;
+}
+
+/* Container that wraps everything (set in App.jsx) */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+
+/* Premium gradient + subtle grid background */
+.fancy-bg {
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(99, 102, 241, 0.22), transparent 60%),
+    radial-gradient(900px 500px at 100% 10%, rgba(16, 185, 129, 0.18), transparent 60%),
+    radial-gradient(800px 500px at 0% 0%, rgba(236, 72, 153, 0.16), transparent 55%),
+    #020617;
+  position: relative;
+}
+
+.fancy-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+  background-size: 26px 26px;
+  pointer-events: none;
+  opacity: 0.7;
+  mask-image: radial-gradient(ellipse at 50% 0%, black 60%, transparent 100%);
+}
+
+/* ======= GENERIC PAGE LAYOUT ======= */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #f9fafb;
+  margin: 0;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: #9ca3af;
+  margin: 0 0 8px;
+}
+
+/* ======= CARD / PANEL ======= */
+
+.card {
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.95), #020617);
+  padding: 16px 18px;
+  box-shadow:
+    0 22px 45px rgba(15, 23, 42, 0.74),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::after {
+  /* thin highlight line on top */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  border-top: 1px solid rgba(248, 250, 252, 0.1);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* ======= FORM CONTROLS ======= */
+
+.input,
+select,
+.select {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  color: #e5e7eb;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  min-width: 120px;
+}
+
+.input::placeholder {
+  color: #6b7280;
+}
+
+.input:focus,
+.select:focus,
+select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.35);
+}
+
+.select {
+  appearance: none;
+}
+
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+/* ======= BUTTONS ======= */
+
+button {
+  font-family: inherit;
+}
+
+.primary-btn {
+  border-radius: 8px;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #f9fafb;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(79, 70, 229, 0.45);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(79, 70, 229, 0.6);
+}
+
+.primary-btn.small {
+  padding: 5px 12px;
+  font-size: 12px;
+}
+
+.secondary-btn {
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  background: rgba(15, 23, 42, 0.85);
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: background 0.16s ease, transform 0.16s ease;
+}
+
+.secondary-btn.small {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.secondary-btn:hover {
+  background: rgba(31, 41, 55, 0.95);
+  transform: translateY(-1px);
+}
+
+.danger-btn {
+  border-radius: 8px;
+  border: none;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  color: #fee2e2;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(239, 68, 68, 0.45);
+}
+
+.danger-btn.small {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.danger-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.btn-sm {
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.btn-sm:hover {
+  background: rgba(30, 64, 175, 0.9);
+  transform: translateY(-1px);
+}
+/* --- Attendance Buttons --- */
+
+/* --- Attendance Buttons (TakeAttendance page) --- */
+
+.present-btn,
+.absent-btn,
+.bulk-btn {
+  border-radius: 6px;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f9fafb;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease,
+    opacity 0.15s ease;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.55);
+}
+
+/* Individual colours */
+.present-btn {
+  background: #16a34a; /* green */
+}
+
+.present-btn:hover {
+  background: #15803d;
+  transform: translateY(-1px);
+}
+
+.absent-btn {
+  background: #dc2626; /* red */
+}
+
+.absent-btn:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.bulk-btn {
+  background: #2563eb; /* blue */
+}
+
+.bulk-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+/* Disabled state (when date/subject not selected) */
+.present-btn:disabled,
+.absent-btn:disabled,
+.bulk-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+
+
+
+
+/* ======= TABLES ======= */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 6px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+thead {
+  background: rgba(15, 23, 42, 0.95);
+}
+
+th,
+td {
+  padding: 8px 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+th {
+  font-weight: 600;
+  color: #9ca3af;
+  border-bottom: 1px solid rgba(55, 65, 81, 0.9);
+}
+
+tbody tr:nth-child(even) {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+tbody tr:nth-child(odd) {
+  background: rgba(15, 23, 42, 0.3);
+}
+
+tbody tr:hover {
+  background: rgba(30, 64, 175, 0.6);
+}
+
+/* ======= NAVBAR (container only; detailed styles in Navbar.css) ======= */
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
