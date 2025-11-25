@@ -293,3 +293,83 @@ SELECT f.id, s.id
 FROM faculties f
 JOIN subjects s
 WHERE f.email = 'faculty1@example.com';
+
+
+-- 1) Attendance audit table (logs changes to attendance_records)
+CREATE TABLE IF NOT EXISTS attendance_audit (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  attendance_record_id INT,
+  old_status ENUM('present','absent'),
+  new_status ENUM('present','absent'),
+  changed_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2) Trigger: after UPDATE on attendance_records -> insert one audit row if status changed
+DROP TRIGGER IF EXISTS trg_after_attendance_update;
+
+DELIMITER $$
+CREATE TRIGGER trg_after_attendance_update
+AFTER UPDATE ON attendance_records
+FOR EACH ROW
+BEGIN
+  -- Only log when status actually changed
+  IF OLD.status <> NEW.status THEN
+    INSERT INTO attendance_audit(attendance_record_id, old_status, new_status)
+    VALUES (OLD.id, OLD.status, NEW.status);
+  END IF;
+END$$
+DELIMITER ;
+
+-- 3) Simple summary table to store per-session present counts
+CREATE TABLE IF NOT EXISTS session_summary (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  session_id INT NOT NULL,
+  total_present INT NOT NULL,
+  generated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 4) Stored procedure that uses a cursor to loop through sessions
+--    For each session it counts how many 'present' records exist and inserts into session_summary.
+DROP PROCEDURE IF EXISTS generate_session_summaries;
+
+DELIMITER $$
+CREATE PROCEDURE generate_session_summaries()
+BEGIN
+  DECLARE v_done INT DEFAULT 0;
+  DECLARE v_session_id INT;
+  DECLARE v_present_count INT;
+
+  -- Cursor selects session ids
+  DECLARE cur_sessions CURSOR FOR
+    SELECT id FROM attendance_sessions ORDER BY id;
+
+  -- When cursor is exhausted set v_done
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_done = 1;
+
+  OPEN cur_sessions;
+
+  read_loop: LOOP
+    FETCH cur_sessions INTO v_session_id;
+    IF v_done = 1 THEN
+      LEAVE read_loop;
+    END IF;
+
+    -- Count present for this session
+    SELECT COUNT(*) INTO v_present_count
+    FROM attendance_records
+    WHERE session_id = v_session_id AND status = 'present';
+
+    -- Insert result into summary table
+    INSERT INTO session_summary(session_id, total_present)
+    VALUES (v_session_id, v_present_count);
+
+  END LOOP read_loop;
+
+  CLOSE cur_sessions;
+END$$
+DELIMITER ;
+
+-- Usage:
+-- CALL generate_session_summaries();
+-- After running, check: SELECT * FROM session_summary ORDER BY generated_at DESC;
+
