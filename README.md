@@ -1,16 +1,121 @@
-# React + Vite
+# 📚 Attendance System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack web application for managing student attendance with both **Frontend (React + Vite)** and **Backend (Node + Express + MySQL)**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+### ⭐ Frontend (student-ui)
+- Clean and responsive UI  
+- Student login  
+- Attendance view page  
+- Class selection  
+- Fetches real-time data from backend  
+- Built using:
+  - React  
+  - Vite  
+  - Tailwind CSS  
+  - JavaScript  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### ⭐ Backend
+- REST API for attendance management  
+- Routes for:
+  - Student login  
+  - Marking attendance  
+  - Viewing attendance  
+- Built using:
+  - Node.js  
+  - Express.js  
+  - MySQL  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+
+| Layer      | Technology                 |
+|------------|-----------------------------|
+| Frontend   | React, Vite, Tailwind CSS   |
+| Backend    | Node.js, Express.js         |
+| Database   | MySQL                       |
+| Tools      | Git, GitHub                 |
+
+---
+
+## 📂 Project Structure
+
+Attendance-System/
+│
+├── backend/ # Node + Express + MySQL backend
+│ ├── routes/
+│ ├── controllers/
+│ ├── db/
+│ └── package.json
+│
+└── student-ui/ # React + Vite frontend
+├── src/
+├── public/
+├── vite.config.js
+└── package.json
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1️⃣ Clone the repository
+```bash
+git clone https://github.com/AK-tech18/Attendance-System.git
+cd Attendance-System
+2️⃣ Setup Backend
+cd backend
+npm install
+npm start
+## reate a .env file inside backend:
+
+PORT=5000
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=yourpassword
+DB_NAME=attendance_db
+JWT_SECRET=your_secret_here
+
+ Make sure MySQL is running.
+3️⃣ Setup Frontend
+cd student-ui
+npm install
+npm run dev
+
+🔑 Environment Variables (Backend)
+PORT=5000
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=yourpassword
+DB_NAME=attendance_db
+JWT_SECRET=your_secret_here
+
+ 👤 Author
+
+Aditya Kaushal
+GitHub: https://github.com/AK-tech18
+
+Email: kaushals.aditya1@gmail.com
+
+🤝 Contributing
+
+Pull requests are welcome!
+
+📜 License
+
+This project is open-source and free to use.
+
+---
+
+# ✔ Your README is now ready  
+If you want, I can also make:
+
+✅ A more colorful README  
+✅ One with badges (React, Express, MySQL, GitHub)  
+✅ Add screenshots automatically  
+✅ Add installation diagram / architecture diagram  
+
+Just tell me — I’ll generate it for you.
